@@ -6,7 +6,7 @@
 
 - **最新版本**: 1.0.0
 - **更新日期**: 2025/10/8
-- **下载地址**:  https://github.com/vam876/FastMonitor/releases
+- **下载地址**:  https://github.com/vam876/FastMonitor/releases (Windows、Apple Silicon)
 - **作者其他项目推荐**:  [WEB日志可视化分析工具](https://github.com/vam876/FastWLAT)  **|**  [图形化Windows日志安全分析工具](https://github.com/vam876/FastWinLog)  **|**  [图形化Linux日志安全分析工具](https://github.com/vam876/FastLinLog)
 
 ### 核心特性
@@ -876,6 +876,24 @@ brew install libpcap
 # 安装Go和Node
 brew install go node
 ```
+# macOS 编译 Sniffer 常见问题速查表
+
+| # | 编译错误 / 现象 | 一句话解法 |
+|---|----------------|-------------|
+| 1 | `build/appicon.png: no matching files found` | `mkdir -p build && cp xxx.png build/appicon.png`（PNG、1024×1024） |
+| 2 | `vite: Permission denied` | `chmod +x frontend/node_modules/.bin/*` |
+| 3 | `Cannot find module @rollup/rollup-darwin-arm64` | `cd frontend && rm -rf node_modules package-lock.json && npm i` |
+| 4 | `wailsjs/runtime/package.json: permission denied` | `sudo chown -R $(whoami) frontend/wailsjs frontend/dist` |
+| 5 | `image: unknown format / unexpected EOF` | `file build/appicon.png` 必须是 PNG，不能是 WebP 或 0 KB 占位文件 |
+| 6 | 编译卡在 `node_modules` 下载 | `export GOPROXY=https://goproxy.cn ,direct` 再重新 `wails build` |
+| 7 | 编译通过但 `.app` 打不开（闪退） | `codesign --force --deep --sign - build/bin/sniffer.app && xattr -cr build/bin/sniffer.app` |
+| 8 | Apple Silicon 机器上报 `bad CPU type` | 确保本机已安装 Rosetta 2：`softwareupdate --install-rosetta --agree-to-license` |
+| 9 | `wails build` 提示 `wails: command not found` | 先把 Go bin 目录写进 PATH：<br>`echo 'export PATH="$HOME/go/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc` |
+|10| 前端依赖装完仍然报 `rollup` 相关错 | `npm -g install npm@latest` 升级 npm 后重新 `npm i` |
+
+---
+
+
 
 ### 构建运行
 
