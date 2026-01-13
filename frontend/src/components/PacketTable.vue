@@ -412,8 +412,9 @@ function getProtocolType(protocol: string): string {
 
     .filter-nav {
       width: 260px;
-      background: var(--el-bg-color-overlay);
-      border-radius: 8px;
+      background: var(--bg-card);
+      border-radius: 2px;
+      border: 1px solid var(--border-base);
       padding: 16px;
       overflow-y: auto;
       max-height: calc(100vh - 450px);
@@ -476,8 +477,8 @@ function getProtocolType(protocol: string): string {
           transition: background 0.2s;
 
           &:hover {
-            background: var(--el-fill-color-light);
-            border-radius: 4px;
+            background: var(--bg-table-head);
+            border-radius: 2px;
             padding-left: 8px;
             padding-right: 8px;
           }
