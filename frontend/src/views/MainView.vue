@@ -87,15 +87,6 @@
       </div>
 
       <div class="header-right">
-        <el-switch
-          v-model="isDark"
-          inline-prompt
-          active-text="深色"
-          inactive-text="浅色"
-          @change="toggleTheme"
-          size="small"
-          style="margin-right: 15px"
-        />
         <el-tag :type="isCapturing ? 'success' : 'info'" size="small">
           {{ statusText }}
         </el-tag>
@@ -202,7 +193,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Monitor, VideoPlay, VideoPause, VideoCamera, Connection, Link, Delete } from '@element-plus/icons-vue'
+import { Monitor, VideoPlay, VideoPause, VideoCamera, Delete } from '@element-plus/icons-vue'
 import PacketTable from '../components/PacketTable.vue'
 import SessionTable from '../components/SessionTable.vue'
 import SessionFlowTable from '../components/SessionFlowTable.vue'
@@ -211,11 +202,7 @@ import DashboardView from './DashboardView.vue'
 import ProcessView from './ProcessView.vue'
 import AlertLogs from '../components/AlertLogs.vue'
 import AlertRules from '../components/AlertRules.vue'
-import { useThemeStore } from '../stores/theme'
 import { GetInterfaces, StartCapture, StopCapture, PauseCapture, ResumeCapture, GetMetrics, GetRawPackets, QuerySessions, QuerySessionFlows, ClearAllData } from '../../wailsjs/go/server/App'
-
-const themeStore = useThemeStore()
-const isDark = ref(themeStore.isDark)
 
 const interfaces = ref<any[]>([])
 const selectedInterface = ref('')
@@ -282,10 +269,6 @@ const statusText = computed(() => {
   if (isPaused.value) return '已暂停'
   return '正在抓包'
 })
-
-function toggleTheme() {
-  themeStore.setTheme(isDark.value)
-}
 
 function formatInterfaceLabel(iface: any): string {
   const desc = iface.description || iface.name
@@ -712,6 +695,7 @@ watch(activeTab, (newTab) => {
   height: 100vh;
   padding: 16px;
   gap: 16px;
+  background: var(--bg-body);
 }
 
 /* 合并的顶部栏 */
@@ -719,17 +703,18 @@ watch(activeTab, (newTab) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 20px;
-  background: var(--el-bg-color-overlay);
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-  margin-bottom: 16px;
+  padding: 0 20px;
+  height: 60px;
+  background: var(--bg-header);
+  color: #ffffff;
+  border-radius: 2px;
+  border: 1px solid #001225;
   
   .header-left {
     flex: 0 0 auto;
     
     h1 {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -772,6 +757,10 @@ watch(activeTab, (newTab) => {
 .content-area {
   flex: 1;
   overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-base);
+  border-radius: 2px;
+  padding: 12px 16px 16px;
 
   :deep(.el-tabs) {
     height: 100%;
